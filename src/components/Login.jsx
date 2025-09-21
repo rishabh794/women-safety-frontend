@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -20,9 +23,8 @@ const Login = () => {
 
       console.log('Login successful:', response.data);
       localStorage.setItem('authToken', response.data.token);
-      
-      // We will redirect the user to the main app here later
-      alert('Login Successful! Check the console for your token.');
+      navigate('/'); // Redirect to the homepage on success
+      window.location.reload(); // Force a reload to update auth status in App.jsx
 
     } catch (err) {
       console.error('Login failed:', err.response?.data?.message || 'An error occurred.');

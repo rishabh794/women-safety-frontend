@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
   const [name, setName] = useState('');
@@ -8,6 +9,7 @@ const Signup = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState('');
+  const navigate = useNavigate();
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -23,6 +25,9 @@ const Signup = () => {
       });
 
       console.log('Signup successful:', response.data);
+      localStorage.setItem('authToken', response.data.token);
+      navigate('/');
+      window.location.reload();
       setSuccess('Signup successful! You can now log in.');
 
     } catch (err) {
