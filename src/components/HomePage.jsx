@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
+import Map from './Map';
 import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
+  const [location, setLocation] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [alertSent, setAlertSent] = useState(false);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -11,44 +15,39 @@ const HomePage = () => {
     window.location.reload();
   };
 
-
   const handleSOS = async () => {
     if (!navigator.geolocation) {
       alert('Geolocation is not supported by your browser.');
       return;
     }
 
+    setLoading(true);
+    setAlertSent(false);
+
     const getLocation = () => new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(resolve, reject);
+      navigator.geolocation.getCurrentPosition(resolve, reject, {  enableHighAccuracy: true });
     });
 
     try {
-      alert("Requesting your location... Please approve the browser request.");
       const position = await getLocation();
       const { latitude, longitude } = position.coords;
-
-      console.log('Location fetched:', { latitude, longitude });
       
-      // --- SENDING TO BACKEND ---
-      const token = localStorage.getItem('authToken');
-      if (!token) {
-        alert("You are not logged in!");
-        return;
-      }
+      setLocation([latitude, longitude]);
 
+      const token = localStorage.getItem('authToken');
       await axios.post(
-        'http://localhost:3000/api/alerts', 
+        'http://localhost:3000/api/alerts',
         { latitude, longitude },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      
-      alert('SOS signal successfully sent to the server!');
+
+      setAlertSent(true);
 
     } catch (error) {
-      // This will catch errors from both geolocation and the axios call
       const errorMessage = error.response?.data?.message || error.message || "An unknown error occurred.";
-      console.error("Failed to send SOS:", errorMessage);
       alert(`Error: ${errorMessage}`);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -56,8 +55,18 @@ const HomePage = () => {
     <div>
       <h1>Welcome!</h1>
       <p>Your Dashboard</p>
-      <button onClick={handleSOS}>SEND SOS ALERT</button>
+      <button onClick={handleSOS} disabled={loading}>
+        {loading ? 'Sending...' : 'SEND SOS ALERT'}
+      </button>
       <button onClick={handleLogout}>Logout</button>
+
+      {location && (
+        <div>
+          <h3>Your Location:</h3>
+          <Map position={location} />
+          {alertSent && <p style={{ color: 'green' }}>Alert Sent Successfully!</p>}
+        </div>
+      )}
     </div>
   );
 };
