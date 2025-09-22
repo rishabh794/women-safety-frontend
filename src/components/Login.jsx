@@ -1,36 +1,22 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import { useAuth } from '../hooks/useAuth';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setError('');
-
     try {
-      const response = await axios.post('http://localhost:3000/api/user/login', {
-        email,
-        password,
-      });
-
-      console.log('Login successful:', response.data);
-      localStorage.setItem('authToken', response.data.token);
-      navigate('/'); // Redirect to the homepage on success
-      window.location.reload(); // Force a reload to update auth status in App.jsx
-
+      await login(email, password);
+      navigate('/');
     } catch (err) {
-      console.error('Login failed:', err.response?.data?.message || 'An error occurred.');
-      setError(err.response?.data?.message || 'Failed to login. Please check your credentials.');
-    } finally {
-      setLoading(false);
+      setError(err.response?.data?.message || 'Failed to login.');
     }
   };
 
@@ -38,27 +24,21 @@ const Login = () => {
     <div>
       <h2>Login</h2>
       <form onSubmit={handleLogin}>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit" disabled={loading}>
-          {loading ? 'Logging in...' : 'Login'}
-        </button>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          placeholder="Email"
+        />
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          placeholder="Password"
+        />
+        <button type="submit">Login</button>
         {error && <p style={{ color: 'red' }}>{error}</p>}
       </form>
     </div>

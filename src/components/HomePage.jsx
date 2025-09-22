@@ -1,19 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Map from './Map';
-import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
   const [location, setLocation] = useState(null);
   const [loading, setLoading] = useState(false);
   const [alertSent, setAlertSent] = useState(false);
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    localStorage.removeItem('authToken');
-    navigate('/login');
-    window.location.reload();
-  };
 
   const handleSOS = async () => {
     if (!navigator.geolocation) {
@@ -58,7 +50,6 @@ const HomePage = () => {
       <button onClick={handleSOS} disabled={loading}>
         {loading ? 'Sending...' : 'SEND SOS ALERT'}
       </button>
-      <button onClick={handleLogout}>Logout</button>
 
       {location && (
         <div>

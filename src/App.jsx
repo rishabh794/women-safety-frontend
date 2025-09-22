@@ -1,26 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
+import React from 'react';
+import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import HomePage from './components/HomePage';
 import ProtectedRoute from './components/ProtectedRoute';
+import { useAuth } from './hooks/useAuth';
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const token = localStorage.getItem('authToken');
-    if (token) {
-      setIsAuthenticated(true);
-    }
-  }, []);
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
   return (
     <div>
       <nav>
-        {isAuthenticated ? (
+        {user ? (
           <>
-            <Link to="/">Home</Link> 
+            <Link to="/">Home</Link> | <button onClick={handleLogout}>Logout</button>
+            <span> (Logged in as: {user.name})</span>
           </>
         ) : (
           <>

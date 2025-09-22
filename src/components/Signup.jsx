@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 
 const Signup = () => {
   const [name, setName] = useState('');
@@ -11,6 +12,8 @@ const Signup = () => {
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
 
+  const { login } = useAuth();
+
   const handleSignup = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -18,17 +21,13 @@ const Signup = () => {
     setSuccess('');
 
     try {
-      const response = await axios.post('http://localhost:3000/api/user/create', {
+      await axios.post('http://localhost:3000/api/user/create', {
         name,
         email,
         password,
       });
-
-      console.log('Signup successful:', response.data);
-      localStorage.setItem('authToken', response.data.token);
+      await login(email, password);
       navigate('/');
-      window.location.reload();
-      setSuccess('Signup successful! You can now log in.');
 
     } catch (err) {
       console.error('Signup failed:', err.response?.data?.message || 'An error occurred.');
