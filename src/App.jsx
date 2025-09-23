@@ -5,6 +5,7 @@ import Signup from './components/Signup';
 import HomePage from './components/HomePage';
 import ProtectedRoute from './components/ProtectedRoute';
 import GuardiansPage from './components/GuardiansPage';
+import ProfilePage from './components/ProfilePage';
 import { useAuth } from './hooks/useAuth';
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
       <nav>
         {user ? (
           <>
-            <Link to="/">Home</Link> | <Link to="/guardians">Guardians</Link> | <button onClick={handleLogout}>Logout</button>
+            <Link to="/">Home</Link> | <Link to="/guardians">Guardians</Link> | <Link to="/profile">Profile</Link> | <button onClick={handleLogout}>Logout</button>
             <span> (Logged in as: {user.name})</span>
           </>
         ) : (
@@ -34,22 +35,9 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <HomePage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/guardians"
-          element={
-            <ProtectedRoute>
-              <GuardiansPage />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
+        <Route path="/guardians" element={<ProtectedRoute><GuardiansPage /></ProtectedRoute>} />
+        <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
       </Routes>
     </div>
   );
