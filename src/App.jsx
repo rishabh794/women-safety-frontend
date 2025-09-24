@@ -8,6 +8,7 @@ import GuardiansPage from './components/GuardiansPage';
 import ProfilePage from './components/ProfilePage';
 import AdminDashboard from './components/AdminDashboard';
 import AdminRoute from './components/AdminRoute';
+import GuardianView from './components/GuardianView';
 import { useAuth } from './hooks/useAuth';
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
         <Route path="/guardians" element={<ProtectedRoute><GuardiansPage /></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
         <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+        <Route path="/track/:alertId" element={<GuardianView />} />
       </Routes>
     </div>
   );

@@ -24,12 +24,26 @@ const HomePage = () => {
     };
   }, []);
 
-  const startTracking = async () => {
+ const startTracking = async () => {
     try {
       const token = localStorage.getItem('authToken');
+      if (!token) {
+        alert("Authentication error. Please log in again.");
+        return;
+      }
+
+      const getLocation = () => new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: true });
+      });
+      
+      const position = await getLocation();
+      const { latitude, longitude } = position.coords;
+      
+      setLocation([latitude, longitude]);
+
       const response = await axios.post(
         'http://localhost:3000/api/alerts',
-        { latitude: 0, longitude: 0 }, // Initial dummy location
+        { latitude, longitude },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       const newAlert = response.data.alert;
@@ -37,13 +51,13 @@ const HomePage = () => {
       socket.emit('join-alert-room', newAlert.id);
 
       watchIdRef.current = navigator.geolocation.watchPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setLocation([latitude, longitude]);
+        (pos) => {
+          const { latitude: lat, longitude: lon } = pos.coords;
+          setLocation([lat, lon]);
           socket.emit('location-update', {
             alertId: newAlert.id,
-            latitude,
-            longitude,
+            latitude: lat,
+            longitude: lon,
           });
         },
         (error) => {
@@ -55,20 +69,33 @@ const HomePage = () => {
 
       setIsTracking(true);
     } catch (error) {
-      alert('Could not start SOS. Please try again.',error);
+      const errorMessage = error.response?.data?.message || error.message || "An unknown error occurred.";
+      alert(`Could not start SOS: ${errorMessage}`);
     }
   };
 
-  const stopTracking = () => {
+ const stopTracking = () => {
     if (watchIdRef.current) {
-      navigator.geolocation.clearWatch(watchIdRef.current);
+      if (typeof watchIdRef.current === 'number') {
+        navigator.geolocation.clearWatch(watchIdRef.current);
+      } else {
+        clearInterval(watchIdRef.current);
+      }
+      watchIdRef.current = null;
     }
-    // In a real app, we might also emit a 'stop-tracking' event
-    // and update the alert status in the DB to 'resolved'.
+    
+    if (alert) {
+      socket.emit('stop-tracking', { alertId: alert.id });
+    }
+
     setIsTracking(false);
     setAlert(null);
     setLocation(null);
   };
+
+  const googleMapsUrl = location 
+    ? `https://www.google.com/maps?q=${location[0]},${location[1]}`
+    : '#';
 
 
   return (
@@ -86,6 +113,9 @@ const HomePage = () => {
         <div>
           <h3>Live Tracking Active...</h3>
           <Map position={location} />
+          <a href={googleMapsUrl} target="_blank" rel="noopener noreferrer">
+        Open in Google Maps
+      </a>
           <p>Alert ID: {alert?.id}</p>
         </div>
       )}
