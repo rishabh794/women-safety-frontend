@@ -1,52 +1,48 @@
 import React from 'react';
-import { Routes, Route, Link, useNavigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import HomePage from './components/HomePage';
-import ProtectedRoute from './components/ProtectedRoute';
 import GuardiansPage from './components/GuardiansPage';
 import ProfilePage from './components/ProfilePage';
 import AdminDashboard from './components/AdminDashboard';
-import AdminRoute from './components/AdminRoute';
 import GuardianView from './components/GuardianView';
-import { useAuth } from './hooks/useAuth';
+import ProtectedRoute from './components/ProtectedRoute';
+import AdminRoute from './components/AdminRoute';
+import AppLayout from './components/AppLayout';
+import PublicLayout from './components/PublicLayout';
 
 function App() {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
-
   return (
-    <div>
-      <nav>
-        {user ? (
-          <>
-            <Link to="/">Home</Link> | <Link to="/guardians">Guardians</Link> | <Link to="/profile">Profile</Link>
-            {user.isAdmin && <span> | <Link to="/admin">Admin Dashboard</Link></span>}
-            | <button onClick={handleLogout}>Logout</button>
-            <span> (Logged in as: {user.name})</span>
-          </>
-        ) : (
-          <>
-            <Link to="/login">Login</Link> | <Link to="/signup">Sign Up</Link>
-          </>
-        )}
-      </nav>
-      <hr />
-      <Routes>
+    <Routes>
+      <Route element={<PublicLayout />}>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
-        <Route path="/guardians" element={<ProtectedRoute><GuardiansPage /></ProtectedRoute>} />
-        <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
-        <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
-        <Route path="/track/:alertId" element={<GuardianView />} />
-      </Routes>
-    </div>
+      </Route>
+
+      <Route path="/track/:alertId" element={<GuardianView />} />
+
+      <Route 
+        path="/*"
+        element={
+          <ProtectedRoute>
+            <AppLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route path="" element={<HomePage />} />
+        <Route path="guardians" element={<GuardiansPage />} />
+        <Route path="profile" element={<ProfilePage />} />
+        <Route 
+          path="admin" 
+          element={
+            <AdminRoute>
+              <AdminDashboard />
+            </AdminRoute>
+          } 
+        />
+      </Route>
+    </Routes>
   );
 }
 
