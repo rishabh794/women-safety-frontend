@@ -7,7 +7,7 @@ import { socket } from '../socket';
 const HomePage = () => {
   const [location, setLocation] = useState(null);
   const [isTracking, setIsTracking] = useState(false);
-  const [alert, setAlert] = useState(null);
+  const [alertData, setAlertData] = useState(null);
   const watchIdRef = useRef(null);
 
   const { user } = useAuth();
@@ -47,7 +47,7 @@ const HomePage = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       const newAlert = response.data.alert;
-      setAlert(newAlert);
+      setAlertData(newAlert);
       socket.emit('join-alert-room', newAlert.id);
 
       watchIdRef.current = navigator.geolocation.watchPosition(
@@ -64,7 +64,7 @@ const HomePage = () => {
           console.error("Error watching position:", error);
           stopTracking();
         },
-        { enableHighAccuracy: true }
+        { enableHighAccuracy: true, }
       );
 
       setIsTracking(true);
@@ -84,12 +84,12 @@ const HomePage = () => {
       watchIdRef.current = null;
     }
     
-    if (alert) {
-      socket.emit('stop-tracking', { alertId: alert.id });
+    if (alertData) {
+      socket.emit('stop-tracking', { alertId: alertData.id });
     }
 
     setIsTracking(false);
-    setAlert(null);
+    setAlertData(null);
     setLocation(null);
   };
 
@@ -116,7 +116,7 @@ const HomePage = () => {
           <a href={googleMapsUrl} target="_blank" rel="noopener noreferrer">
         Open in Google Maps
       </a>
-          <p>Alert ID: {alert?.id}</p>
+          <p>Alert ID: {alertData?.id}</p>
         </div>
       )}
     </div>
