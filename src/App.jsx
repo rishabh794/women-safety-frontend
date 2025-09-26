@@ -1,5 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
+import LandingPage from './components/LandingPage';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import HomePage from './components/HomePage';
@@ -15,6 +16,8 @@ import PublicLayout from './components/PublicLayout';
 function App() {
   return (
     <Routes>
+      <Route path="/" element={<LandingPage />} />
+      
       <Route element={<PublicLayout />}>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
@@ -23,7 +26,7 @@ function App() {
       <Route path="/track/:alertId" element={<GuardianView />} />
 
       <Route 
-        path="/*"
+        path="/dashboard/*"
         element={
           <ProtectedRoute>
             <AppLayout />

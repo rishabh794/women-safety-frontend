@@ -7,7 +7,6 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   
-  // --- NEW TRACKING STATE ---
   const [isTracking, setIsTracking] = useState(false);
   const [location, setLocation] = useState(null);
   const [alertData, setAlertData] = useState(null);
@@ -52,7 +51,6 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
-  // --- NEW TRACKING FUNCTIONS ---
   const startTracking = async () => {
     try {
       const token = localStorage.getItem('authToken');
@@ -88,6 +86,7 @@ export const AuthProvider = ({ children }) => {
           stopTracking();
         },
         { enableHighAccuracy: true,
+          timeout:10000,
           maximumAge: 0
          }
       );

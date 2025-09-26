@@ -14,8 +14,10 @@ const AppLayout = () => {
   return (
     <div>
       <nav>
-        <Link to="/">Home</Link> | <Link to="/guardians">Guardians</Link> | <Link to="/profile">Profile</Link>
-        {user?.isAdmin && <span> | <Link to="/admin">Admin Dashboard</Link></span>}
+        <Link to="/dashboard">Home</Link> | 
+        <Link to="/dashboard/guardians">Guardians</Link> | 
+        <Link to="/dashboard/profile">Profile</Link>
+        {user?.isAdmin && <span> | <Link to="/dashboard/admin">Admin Dashboard</Link></span>}
         | <button onClick={handleLogout}>Logout</button>
         <span> (Logged in as: {user?.name})</span>
       </nav>

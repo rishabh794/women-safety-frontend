@@ -69,7 +69,7 @@ const GuardianView = () => {
         <>
           <Map position={location} />
           <a href={googleMapsUrl} target="_blank" rel="noopener noreferrer">
-            Open in Google Maps
+            Open in Google Maps for current location
           </a>
         </>
       ) : (
