@@ -49,16 +49,6 @@ const AppLayout = () => {
                 Guardians
               </Link>
               
-              <Link 
-                to="/dashboard/profile"
-                className="group flex items-center gap-2 px-4 py-2 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-all duration-200"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-                Profile
-              </Link>
-              
               {user?.isAdmin && (
                 <Link 
                   to="/dashboard/admin"
@@ -77,6 +67,7 @@ const AppLayout = () => {
             <div className="flex items-center gap-4">
               {/* User Info */}
               <div className="hidden sm:flex items-center gap-3">
+                <Link to="/dashboard/profile">
                 <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
                   <span className="text-xs font-bold text-white">
                     {user?.name?.charAt(0)?.toUpperCase()}
@@ -87,7 +78,9 @@ const AppLayout = () => {
                   <p className="text-gray-500 text-xs">
                     {user?.isAdmin ? 'Administrator' : 'User'}
                   </p>
+                  
                 </div>
+                </Link>
               </div>
 
               {/* Logout Button */}
