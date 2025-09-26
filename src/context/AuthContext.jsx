@@ -1,4 +1,4 @@
-import React, { useState, useEffect , useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { AuthContext } from './auth-context';
 import { socket } from '../socket';
@@ -6,14 +6,12 @@ import { socket } from '../socket';
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  
   const [isTracking, setIsTracking] = useState(false);
   const [location, setLocation] = useState(null);
   const [alertData, setAlertData] = useState(null);
   const watchIdRef = useRef(null);
 
   useEffect(() => {
-    socket.connect();
     const fetchUser = async () => {
       const token = localStorage.getItem('authToken');
       if (token) {
@@ -25,12 +23,19 @@ export const AuthProvider = ({ children }) => {
         } catch (error) {
           console.log(error);
           localStorage.removeItem('authToken');
+          setUser(null);
         }
       }
       setLoading(false);
     };
     fetchUser();
+  }, []);
 
+  useEffect(() => {
+    socket.connect();
+    if (alertData) {
+      socket.emit('join-alert-room', alertData.id);
+    }
     return () => {
       socket.disconnect();
     };
@@ -54,10 +59,13 @@ export const AuthProvider = ({ children }) => {
   const startTracking = async () => {
     try {
       const token = localStorage.getItem('authToken');
-      const getLocation = () => new Promise((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: true });
-      });
-      
+      const getLocation = () =>
+        new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject, {
+            enableHighAccuracy: true,
+          });
+        });
+
       const position = await getLocation();
       const { latitude, longitude } = position.coords;
       setLocation([latitude, longitude]);
@@ -81,13 +89,10 @@ export const AuthProvider = ({ children }) => {
             longitude: lon,
           });
         },
-        (error) => {
-          console.log(error);
+        () => {
           stopTracking();
         },
-        { enableHighAccuracy: true,
-          maximumAge: 0
-         }
+        { enableHighAccuracy: true, maximumAge: 0 }
       );
       setIsTracking(true);
     } catch (error) {
@@ -108,17 +113,16 @@ export const AuthProvider = ({ children }) => {
     setLocation(null);
   };
 
-
-  const authContextValue = { 
-    user, 
-    login, 
-    logout, 
+  const authContextValue = {
+    user,
+    login,
+    logout,
     loading,
     isTracking,
     location,
     alertData,
     startTracking,
-    stopTracking
+    stopTracking,
   };
 
   return (
