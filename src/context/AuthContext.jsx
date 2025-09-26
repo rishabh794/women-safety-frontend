@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }) => {
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }, [alertData]);
 
   const login = async (email, password) => {
     const response = await axios.post('http://localhost:3000/api/user/login', {
@@ -86,7 +86,6 @@ export const AuthProvider = ({ children }) => {
           stopTracking();
         },
         { enableHighAccuracy: true,
-          timeout:10000,
           maximumAge: 0
          }
       );
