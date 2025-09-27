@@ -54,7 +54,6 @@ if (loading) return (
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50">
-      {/* Header */}
       <div className="bg-white shadow-sm border-b border-purple-100">
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex items-center space-x-4">
@@ -72,7 +71,6 @@ if (loading) return (
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-8">
-        {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="bg-white rounded-2xl shadow-lg border border-purple-100 p-6">
             <div className="flex items-center">
@@ -118,7 +116,6 @@ if (loading) return (
         </div>
 
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-          {/* Users Section */}
           <div className="bg-white rounded-2xl shadow-lg border border-purple-100 overflow-hidden">
             <div className="bg-gradient-to-r from-purple-600 to-pink-500 px-6 py-4">
               <h3 className="text-xl font-semibold text-white">All Users ({users.length})</h3>
@@ -160,7 +157,6 @@ if (loading) return (
             </div>
           </div>
 
-          {/* Alerts Section */}
           <div className="bg-white rounded-2xl shadow-lg border border-purple-100 overflow-hidden">
             <div className="bg-gradient-to-r from-red-500 to-pink-500 px-6 py-4">
               <h3 className="text-xl font-semibold text-white">All Alerts ({alerts.length})</h3>
@@ -191,7 +187,6 @@ if (loading) return (
                     <div className="space-y-2">
                           <p className="text-red-800 text-sm font-medium">{alert.message || 'Emergency SOS Alert'}</p>
                           
-                          {/* Show latitude and longitude with Google Maps link */}
                           {alert.latitude && alert.longitude && (
                             <p className="text-red-700 text-xs">
                               <span className="font-medium">Location:</span>{' '}
@@ -206,7 +201,6 @@ if (loading) return (
                             </p>
                           )}
                           
-                          {/* Use created_at from database */}
                           <p className="text-red-600 text-xs">
                              <span className="font-medium">Time:</span> {new Date(alert.createdAt).toLocaleString()}
                           </p>

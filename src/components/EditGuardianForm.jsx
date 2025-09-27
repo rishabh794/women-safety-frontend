@@ -30,6 +30,8 @@ const EditGuardianForm = ({ guardian, onSave, onCancel }) => {
         value={phoneNumber}
         onChange={(e) => setPhoneNumber(e.target.value)}
         required
+        pattern="\+[1-9]\d{10,14}"
+        title="Phone number must be in international format, e.g., +919876543210"
         className="w-full p-3 rounded-md border border-white bg-white/30 placeholder-white text-white font-semibold focus:outline-none focus:ring-2 focus:ring-white"
         placeholder="Phone Number"
       />
