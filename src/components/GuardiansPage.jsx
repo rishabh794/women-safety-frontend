@@ -17,7 +17,7 @@ const GuardiansPage = () => {
     const fetchGuardians = async () => {
       try {
         const token = localStorage.getItem('authToken');
-        const response = await axios.get('${import.meta.env.VITE_API_BASE_URL}/guardians', {
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/guardians`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setGuardians(response.data.guardians);
@@ -41,7 +41,7 @@ const GuardiansPage = () => {
     setError('');
     try {
       const token = localStorage.getItem('authToken');
-      const response = await axios.post('${import.meta.env.VITE_API_BASE_URL}/guardians', 
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/guardians`, 
         { name, phoneNumber, email },
         { headers: { Authorization: `Bearer ${token}` } }
       );

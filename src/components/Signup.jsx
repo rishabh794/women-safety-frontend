@@ -41,7 +41,7 @@ const Signup = () => {
     }
 
     try {
-      await axios.post('${import.meta.env.VITE_API_BASE_URL}/user/create', {
+      await axios.post(`${import.meta.env.VITE_API_BASE_URL}/user/create`, {
         name,
         email,
         password,

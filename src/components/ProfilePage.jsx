@@ -32,7 +32,7 @@ const ProfilePage = () => {
         updatedData.password = password;
       }
 
-      await axios.put('${import.meta.env.VITE_API_BASE_URL}/user/update', updatedData, {
+      await axios.put(`${import.meta.env.VITE_API_BASE_URL}/user/update`, updatedData, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setSuccess('Profile updated successfully! Please re-login to see changes.');
@@ -50,7 +50,7 @@ const ProfilePage = () => {
     }
     try {
       const token = localStorage.getItem('authToken');
-      await axios.delete('${import.meta.env.VITE_API_BASE_URL}/user/remove', {
+      await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/user/remove`, {
       headers: { Authorization: `Bearer ${token}` },
       data: { email: user.email }
     });
