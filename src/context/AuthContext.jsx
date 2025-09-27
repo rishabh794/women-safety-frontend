@@ -16,12 +16,11 @@ export const AuthProvider = ({ children }) => {
       const token = localStorage.getItem('authToken');
       if (token) {
         try {
-          const response = await axios.get('http://localhost:3000/api/user', {
+          const response = await axios.get('${import.meta.env.VITE_API_BASE_URL}/user', {
             headers: { Authorization: `Bearer ${token}` },
           });
           setUser(response.data.user);
-        } catch (error) {
-          console.log(error);
+        } catch{
           localStorage.removeItem('authToken');
           setUser(null);
         }
@@ -42,7 +41,7 @@ export const AuthProvider = ({ children }) => {
   }, [alertData]);
 
   const login = async (email, password) => {
-    const response = await axios.post('http://localhost:3000/api/user/login', {
+    const response = await axios.post('${import.meta.env.VITE_API_BASE_URL}/user/login', {
       email,
       password,
     });
@@ -71,7 +70,7 @@ export const AuthProvider = ({ children }) => {
       setLocation([latitude, longitude]);
 
       const response = await axios.post(
-        'http://localhost:3000/api/alerts',
+        '${import.meta.env.VITE_API_BASE_URL}/alerts',
         { latitude, longitude },
         { headers: { Authorization: `Bearer ${token}` } }
       );

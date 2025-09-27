@@ -13,8 +13,8 @@ const AdminDashboard = () => {
         const token = localStorage.getItem('authToken');
         const headers = { Authorization: `Bearer ${token}` };
         
-        const usersResponse =  await axios.get('http://localhost:3000/api/admin/all-users', { headers });
-        const alertsResponse = await axios.get('http://localhost:3000/api/admin/alerts', { headers });
+        const usersResponse =  await axios.get('${import.meta.env.VITE_API_BASE_URL}/admin/all-users', { headers });
+        const alertsResponse = await axios.get('${import.meta.env.VITE_API_BASE_URL}/admin/alerts', { headers });
 
         setUsers(usersResponse.data.users);
         setAlerts(alertsResponse.data.alerts);

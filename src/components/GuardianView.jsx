@@ -13,7 +13,7 @@ const GuardianView = () => {
   useEffect(() => {
     const fetchInitialAlert = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/alerts/${alertId}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/alerts/${alertId}`);
         const initialAlert = response.data.alert;
         setLocation([initialAlert.latitude, initialAlert.longitude]);
       } catch (err) {

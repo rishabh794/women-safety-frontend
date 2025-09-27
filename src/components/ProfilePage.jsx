@@ -32,7 +32,7 @@ const ProfilePage = () => {
         updatedData.password = password;
       }
 
-      await axios.put('http://localhost:3000/api/user/update', updatedData, {
+      await axios.put('${import.meta.env.VITE_API_BASE_URL}/user/update', updatedData, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setSuccess('Profile updated successfully! Please re-login to see changes.');
@@ -50,7 +50,7 @@ const ProfilePage = () => {
     }
     try {
       const token = localStorage.getItem('authToken');
-      await axios.delete('http://localhost:3000/api/user/remove', {
+      await axios.delete('${import.meta.env.VITE_API_BASE_URL}/user/remove', {
       headers: { Authorization: `Bearer ${token}` },
       data: { email: user.email }
     });
@@ -75,7 +75,6 @@ const ProfilePage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50">
-      {/* Header */}
       <div className="bg-white shadow-sm border-b border-purple-100">
         <div className="max-w-4xl mx-auto px-6 py-4">
           <div className="flex items-center space-x-3">
@@ -95,7 +94,6 @@ const ProfilePage = () => {
       <div className="max-w-4xl mx-auto px-6 py-8">
         <div className="grid lg:grid-cols-3 gap-8">
           
-          {/* Main Profile Form */}
           <div className="lg:col-span-2">
             <div className="bg-white rounded-2xl shadow-lg border border-purple-100 overflow-hidden">
               <div className="bg-gradient-to-r from-purple-600 to-pink-500 px-8 py-6">
@@ -104,7 +102,6 @@ const ProfilePage = () => {
               </div>
               
               <form onSubmit={handleUpdateProfile} className="p-8 space-y-6">
-                {/* Name Field */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Full Name
@@ -126,7 +123,6 @@ const ProfilePage = () => {
                   </div>
                 </div>
 
-                {/* Email Field */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Email Address
@@ -148,7 +144,6 @@ const ProfilePage = () => {
                   </div>
                 </div>
 
-                {/* Password Field */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     New Password <span className="text-gray-500 text-xs">(optional)</span>
@@ -179,9 +174,7 @@ const ProfilePage = () => {
             </div>
           </div>
 
-          {/* Sidebar */}
           <div className="space-y-6">
-            {/* Account Stats */}
             <div className="bg-white rounded-2xl shadow-lg border border-purple-100 p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Account Status</h3>
               <div className="space-y-3">
@@ -196,7 +189,6 @@ const ProfilePage = () => {
               </div>
             </div>
 
-            {/* Danger Zone */}
             <div className="bg-white rounded-2xl shadow-lg border border-red-200 overflow-hidden">
               <div className="bg-red-50 px-6 py-4 border-b border-red-200">
                 <h3 className="text-lg font-semibold text-red-900">Danger Zone</h3>
@@ -241,7 +233,6 @@ const ProfilePage = () => {
           </div>
         </div>
 
-        {/* Alert Messages */}
         {success && (
           <div className="mt-6 bg-green-50 border border-green-200 rounded-lg p-4">
             <div className="flex items-center">

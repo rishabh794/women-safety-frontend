@@ -22,7 +22,6 @@ const Signup = () => {
     setError('');
     setSuccess('');
 
-    // Password validation
     if (password !== confirmPassword) {
       setError('Passwords do not match');
       setLoading(false);
@@ -42,7 +41,7 @@ const Signup = () => {
     }
 
     try {
-      await axios.post('http://localhost:3000/api/user/create', {
+      await axios.post('${import.meta.env.VITE_API_BASE_URL}/user/create', {
         name,
         email,
         password,
@@ -51,7 +50,6 @@ const Signup = () => {
       navigate('/dashboard'); 
 
     } catch (err) {
-      console.error('Signup failed:', err.response?.data?.message || 'An error occurred.');
       setError(err.response?.data?.message || 'Failed to sign up. Please try again.');
     } finally {
       setLoading(false);

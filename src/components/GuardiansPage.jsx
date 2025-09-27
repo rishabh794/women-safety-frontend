@@ -17,7 +17,7 @@ const GuardiansPage = () => {
     const fetchGuardians = async () => {
       try {
         const token = localStorage.getItem('authToken');
-        const response = await axios.get('http://localhost:3000/api/guardians', {
+        const response = await axios.get('${import.meta.env.VITE_API_BASE_URL}/guardians', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setGuardians(response.data.guardians);
@@ -41,7 +41,7 @@ const GuardiansPage = () => {
     setError('');
     try {
       const token = localStorage.getItem('authToken');
-      const response = await axios.post('http://localhost:3000/api/guardians', 
+      const response = await axios.post('${import.meta.env.VITE_API_BASE_URL}/guardians', 
         { name, phoneNumber, email },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -58,7 +58,7 @@ const GuardiansPage = () => {
     if (!window.confirm('Are you sure you want to delete this guardian?')) return;
     try {
       const token = localStorage.getItem('authToken');
-      await axios.delete(`http://localhost:3000/api/guardians/${guardianId}`, {
+      await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/guardians/${guardianId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setGuardians(guardians.filter(g => g.id !== guardianId));
@@ -70,7 +70,7 @@ const GuardiansPage = () => {
   const handleUpdateGuardian = async (guardianId, updatedData) => {
     try {
       const token = localStorage.getItem('authToken');
-      const response = await axios.put(`http://localhost:3000/api/guardians/${guardianId}`, 
+      const response = await axios.put(`${import.meta.env.VITE_API_BASE_URL}/guardians/${guardianId}`, 
         updatedData,
         { headers: { Authorization: `Bearer ${token}` } }
       );
