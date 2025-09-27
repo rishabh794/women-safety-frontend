@@ -93,7 +93,7 @@ const GuardiansPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50">
       <div className="max-w-4xl mx-auto px-4 py-8">
-        {/* Header Section */}
+
         <div className="text-center mb-12">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-purple-600 rounded-full mb-4">
             <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -108,7 +108,6 @@ const GuardiansPage = () => {
           </p>
         </div>
 
-        {/* SOS Alert Info */}
         <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-6 mb-8 text-white">
           <div className="flex items-center mb-4">
             <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center mr-4">
@@ -125,7 +124,6 @@ const GuardiansPage = () => {
           </p>
         </div>
 
-        {/* Add Guardian Form */}
         <div className="bg-white rounded-2xl shadow-xl p-8 mb-8 border border-purple-100">
           <div className="flex items-center mb-6">
             <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center mr-3">
@@ -158,6 +156,8 @@ const GuardiansPage = () => {
                   onChange={(e) => setPhoneNumber(e.target.value)}
                   placeholder="Guardian's Phone Number"
                   required
+                  pattern="\+[1-9]\d{10,14}"
+                  title="Phone number must be in international format, e.g., +919876543210"
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all duration-200 bg-gray-50 focus:bg-white"
                 />
               </div>
@@ -184,7 +184,6 @@ const GuardiansPage = () => {
           </form>
         </div>
 
-        {/* Error Message */}
         {error && (
           <div className="mb-8 p-4 bg-red-50 border-l-4 border-red-400 rounded-lg">
             <div className="flex items-center">
@@ -196,7 +195,6 @@ const GuardiansPage = () => {
           </div>
         )}
 
-        {/* Guardians List */}
         <div className="bg-white rounded-2xl shadow-xl border border-purple-100 overflow-hidden">
           <div className="bg-gradient-to-r from-purple-600 to-pink-600 p-6">
             <div className="flex items-center justify-between">

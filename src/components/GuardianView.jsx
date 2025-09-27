@@ -86,7 +86,6 @@ const GuardianView = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50">
       <div className="container mx-auto px-6 py-8">
-        {/* Header Section */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 bg-red-100 text-red-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
             <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
@@ -102,7 +101,6 @@ const GuardianView = () => {
           </p>
         </div>
 
-        {/* Status Card */}
         <div className="max-w-6xl mx-auto mb-8">
           <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
             <div className="flex items-center justify-between">
@@ -144,11 +142,9 @@ const GuardianView = () => {
           </div>
         </div>
 
-        {/* Main Content */}
         <div className="max-w-6xl mx-auto">
           {location ? (
             <div className="grid lg:grid-cols-3 gap-8">
-              {/* Map Section */}
               <div className="lg:col-span-2">
                 <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
                   <div className="p-6 border-b border-gray-200">
@@ -170,14 +166,11 @@ const GuardianView = () => {
                 </div>
               </div>
 
-              {/* Actions Panel */}
               <div className="space-y-6">
-                {/* Quick Actions Card */}
                 <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
                   <h3 className="text-lg font-bold text-gray-900 mb-6">Quick Actions</h3>
                   
                   <div className="space-y-4">
-                    {/* Google Maps Button */}
                     <a 
                       href={googleMapsUrl} 
                       target="_blank" 
@@ -190,7 +183,6 @@ const GuardianView = () => {
                       Open in Google Maps
                     </a>
 
-                    {/* Emergency Services Button */}
                     <a 
                       href="tel:911"
                       className="w-full flex items-center justify-center gap-3 bg-red-600 text-white px-6 py-3 rounded-xl hover:bg-red-700 transition-colors duration-200 font-medium"
@@ -201,7 +193,6 @@ const GuardianView = () => {
                       Call Emergency Services
                     </a>
 
-                    {/* Share Location Button */}
                     <button 
                       onClick={() => {
                         if (navigator.share && location) {
@@ -225,7 +216,6 @@ const GuardianView = () => {
                   </div>
                 </div>
 
-                {/* Alert Info Card */}
                 <div className="bg-gradient-to-r from-red-50 to-pink-50 border border-red-200 rounded-2xl p-6">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
@@ -244,7 +234,6 @@ const GuardianView = () => {
                   </div>
                 </div>
 
-                {/* Alert ID Card */}
                 <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6">
                   <h3 className="font-bold text-gray-900 mb-3">Alert Details</h3>
                   <div className="space-y-2">
@@ -281,7 +270,6 @@ const GuardianView = () => {
           )}
         </div>
 
-        {/* Footer Info */}
         <div className="max-w-6xl mx-auto mt-12">
           <div className="bg-white/50 backdrop-blur-sm border border-gray-200 rounded-2xl p-6">
             <div className="text-center">
