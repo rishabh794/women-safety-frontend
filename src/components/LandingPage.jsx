@@ -10,7 +10,7 @@ const LandingPage = () => {
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                  SafeGuard
+                  SecureSteps
                 </h1>
               </div>
             </div>
@@ -247,7 +247,7 @@ const LandingPage = () => {
               Ready to Take Control of Your Safety?
             </h2>
             <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-              Join thousands of women who trust SafeGuard for their daily safety and peace of mind
+              Join thousands of women who trust SecureSteps for their daily safety and peace of mind
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link 
@@ -275,7 +275,7 @@ const LandingPage = () => {
           <div className="grid md:grid-cols-4 gap-8">
             <div className="space-y-4">
               <h3 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                SafeGuard
+                SecureSteps
               </h3>
               <p className="text-gray-600">
                 Empowering women with advanced safety technology and community support.
@@ -307,7 +307,7 @@ const LandingPage = () => {
             </div>
           </div>
           <div className="border-t border-gray-200 mt-8 pt-8 text-center text-gray-600">
-            <p>&copy; 2024 SafeGuard. All rights reserved.</p>
+            <p>&copy; 2024 SecureSteps. All rights reserved.</p>
           </div>
         </div>
       </footer>

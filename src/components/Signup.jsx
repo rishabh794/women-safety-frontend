@@ -62,11 +62,11 @@ const Signup = () => {
         <div className="text-center">
           <Link to="/" className="inline-block mb-6">
             <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-              SafeGuard
+              SecureSteps
             </h1>
           </Link>
           <h2 className="text-2xl font-bold text-gray-900">Create Your Account</h2>
-          <p className="mt-2 text-gray-600">Join thousands of women who trust SafeGuard</p>
+          <p className="mt-2 text-gray-600">Join thousands of women who trust SecureSteps</p>
         </div>
 
         
@@ -290,7 +290,7 @@ const Signup = () => {
 
         <div className="text-center">
           <Link to="/" className="text-sm text-gray-600 hover:text-purple-600 transition-colors">
-            ← Back to SafeGuard
+            ← Back to SecureSteps
           </Link>
         </div>
       </div>

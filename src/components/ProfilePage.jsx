@@ -85,7 +85,7 @@ const ProfilePage = () => {
             </div>
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Your Profile</h1>
-              <p className="text-gray-600">Manage your SafeGuard account settings</p>
+              <p className="text-gray-600">Manage your SecureSteps account settings</p>
             </div>
           </div>
         </div>
