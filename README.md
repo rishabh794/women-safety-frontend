@@ -3,6 +3,7 @@
 A full-stack web application designed to provide real-time safety features, including live location tracking and emergency alerts to registered guardians. This project demonstrates a complete MERN stack architecture with a secure, token-based authentication system and real-time communication via WebSockets.
 
 **Live Demo:** [https://women-safety-frontend-bice.vercel.app/](https://women-safety-frontend-bice.vercel.app/)
+
 **Backend Repo:**[https://github.com/rishabh794/women-safety-api](https://github.com/rishabh794/women-safety-api)
 
 ## Key Features
