@@ -184,7 +184,7 @@ const GuardianView = () => {
                     </a>
 
                     <a 
-                      href="tel:911"
+                      href="tel:112"
                       className="w-full flex items-center justify-center gap-3 bg-red-600 text-white px-6 py-3 rounded-xl hover:bg-red-700 transition-colors duration-200 font-medium"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

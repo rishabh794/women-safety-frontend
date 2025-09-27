@@ -13,11 +13,9 @@ const AppLayout = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50">
-      {/* Navigation Header */}
       <nav className="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
         <div className="container mx-auto px-6">
           <div className="flex items-center justify-between h-16">
-            {/* Logo/Brand */}
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg flex items-center justify-center">
                 <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -27,7 +25,6 @@ const AppLayout = () => {
               <span className="text-xl font-bold text-gray-900">SafeGuard</span>
             </div>
 
-            {/* Navigation Links */}
             <div className="hidden md:flex items-center gap-1">
               <Link 
                 to="/dashboard"
@@ -63,9 +60,7 @@ const AppLayout = () => {
               )}
             </div>
 
-            {/* User Info & Logout */}
             <div className="flex items-center gap-4">
-              {/* User Info */}
               <div className="hidden sm:flex items-center gap-3">
                 <Link to="/dashboard/profile">
                 <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
@@ -83,7 +78,6 @@ const AppLayout = () => {
                 </Link>
               </div>
 
-              {/* Logout Button */}
               <button
                 onClick={handleLogout}
                 className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-all duration-200"
@@ -97,7 +91,6 @@ const AppLayout = () => {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
         <div className="md:hidden border-t border-gray-200 bg-white">
           <div className="container mx-auto px-6 py-3">
             <div className="flex items-center justify-around">
@@ -148,7 +141,6 @@ const AppLayout = () => {
         </div>
       </nav>
 
-      {/* Main Content Area */}
       <main className="flex-1">
         <Outlet />
       </main>

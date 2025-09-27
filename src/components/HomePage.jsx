@@ -16,9 +16,12 @@ const HomePage = () => {
     ? `https://www.google.com/maps?q=${location[0]},${location[1]}`
     : '#';
 
+  const handleEmergencyCall = () => {
+    window.open('tel:112', '_self');
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50">
-      {/* Header Section */}
       <div className="container mx-auto px-6 py-12">
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 bg-purple-100 text-purple-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
@@ -36,10 +39,8 @@ const HomePage = () => {
           </p>
         </div>
 
-        {/* Main Action Section */}
         <div className="max-w-4xl mx-auto">
           <div className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
-            {/* SOS Control Panel */}
             <div className="p-8 md:p-12 text-center">
               <div className="mb-8">
                 <div className={`w-32 h-32 mx-auto rounded-full flex items-center justify-center mb-6 transition-all duration-300 ${
@@ -90,20 +91,30 @@ const HomePage = () => {
                   START SOS
                 </button>
               ) : (
-                <button 
-                  onClick={stopTracking}
-                  className="group relative inline-flex items-center justify-center px-12 py-4 text-xl font-bold text-white bg-gradient-to-r from-red-500 to-red-600 rounded-xl hover:from-red-600 hover:to-red-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl"
-                >
-                  <svg className="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z" />
-                  </svg>
-                  STOP SOS
-                </button>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <button 
+                    onClick={handleEmergencyCall}
+                    className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl hover:from-orange-600 hover:to-orange-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl animate-bounce"
+                  >
+                    <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    </svg>
+                    CALL 112
+                  </button>
+                  <button 
+                    onClick={stopTracking}
+                    className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-gradient-to-r from-red-500 to-red-600 rounded-xl hover:from-red-600 hover:to-red-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl"
+                  >
+                    <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z" />
+                    </svg>
+                    STOP SOS
+                  </button>
+                </div>
               )}
             </div>
 
-            {/* Active Tracking Section */}
             {isTracking && location && (
               <div className="border-t border-gray-100">
                 <div className="p-8 md:p-12">
@@ -114,7 +125,6 @@ const HomePage = () => {
                     </div>
                   </div>
                   
-                  {/* Map Container */}
                   <div className="bg-gray-50 rounded-2xl p-6 mb-8">
                     <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">Your Current Location</h3>
                     <div className="rounded-xl overflow-hidden shadow-lg">
@@ -122,9 +132,7 @@ const HomePage = () => {
                     </div>
                   </div>
 
-                  {/* Action Cards */}
                   <div className="grid md:grid-cols-2 gap-6">
-                    {/* Share Link Card */}
                     <div className="bg-purple-50 border border-purple-200 rounded-2xl p-6">
                       <div className="flex items-center gap-3 mb-4">
                         <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
@@ -142,7 +150,6 @@ const HomePage = () => {
                       </div>
                     </div>
 
-                    {/* Google Maps Card */}
                     <div className="bg-blue-50 border border-blue-200 rounded-2xl p-6">
                       <div className="flex items-center gap-3 mb-4">
                         <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
@@ -175,9 +182,7 @@ const HomePage = () => {
           </div>
         </div>
 
-        {/* Feature Cards - Always Visible */}
         <div className="mt-16 grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {/* Emergency SOS */}
           <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 text-center group hover:shadow-xl transition-all duration-300">
             <div className="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-purple-200 transition-colors duration-300">
               <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -188,7 +193,6 @@ const HomePage = () => {
             <p className="text-gray-600">Instant alert system for emergency situations with one-tap activation</p>
           </div>
 
-          {/* Live Location */}
           <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 text-center group hover:shadow-xl transition-all duration-300">
             <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-green-200 transition-colors duration-300">
               <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -200,7 +204,6 @@ const HomePage = () => {
             <p className="text-gray-600">Real-time tracking that keeps your guardians informed of your whereabouts</p>
           </div>
 
-          {/* Guardian Network */}
           <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 text-center group hover:shadow-xl transition-all duration-300">
             <div className="w-16 h-16 bg-pink-100 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-pink-200 transition-colors duration-300">
               <svg className="w-8 h-8 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
