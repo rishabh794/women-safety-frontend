@@ -35,7 +35,7 @@ const GuardianView = () => {
   useEffect(() => {
     const fetchInitialAlert = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/alerts/${alertId}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/alerts/${alertId}`);
         const initialAlert = response.data.alert;
         dispatch({ type: 'SET_INITIAL_state.location', payload: [initialAlert.latitude, initialAlert.longitude] });
         if (initialAlert.status === 'resolved') {
