@@ -134,22 +134,54 @@ const HomePage = () => {
 
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="bg-purple-50 border border-purple-200 rounded-2xl p-6">
-                      <div className="flex items-center gap-3 mb-4">
-                        <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-                          <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
-                          </svg>
+                        <div className="flex items-center gap-3 mb-4">
+                          <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                            <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
+                            </svg>
+                          </div>
+                          <h4 className="font-bold text-gray-900">Guardian Link</h4>
                         </div>
-                        <h4 className="font-bold text-gray-900">Guardian Link</h4>
+                        <p className="text-sm text-gray-600 mb-4">
+                          Share this secure tracking link with your guardian:
+                        </p>
+                        <div className="bg-white border border-purple-200 rounded-lg p-3 text-sm font-mono text-purple-700 break-all mb-3">
+                          {`${window.location.origin}/track/${alertData?.id}`}
+                        </div>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => {
+                              navigator.clipboard.writeText(`${window.location.origin}/track/${alertData?.id}`);
+                              //Add a toast notification here when working with toast
+                            }}
+                            className="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                            </svg>
+                            Copy Link
+                          </button>
+                          <button
+                            onClick={() => {
+                              if (navigator.share) {
+                                navigator.share({
+                                  title: 'Guardian Tracking Link',
+                                  text: 'Track my location using this link:',
+                                  url: `${window.location.origin}/track/${alertData?.id}`
+                                });
+                              } else {
+                                navigator.clipboard.writeText(`${window.location.origin}/track/${alertData?.id}`);
+                              }
+                            }}
+                            className="flex-1 bg-purple-100 hover:bg-purple-200 text-purple-700 font-medium py-2 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
+                            </svg>
+                            Share
+                          </button>
+                        </div>
                       </div>
-                      <p className="text-sm text-gray-600 mb-4">
-                        Share this secure tracking link with your guardian:
-                      </p>
-                      <div className="bg-white border border-purple-200 rounded-lg p-3 text-sm font-mono text-purple-700 break-all">
-                        {`${window.location.origin}/track/${alertData?.id}`}
-                      </div>
-                    </div>
-
                     <div className="bg-blue-50 border border-blue-200 rounded-2xl p-6">
                       <div className="flex items-center gap-3 mb-4">
                         <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
