@@ -1,45 +1,70 @@
-import React, { useState, useEffect } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { socket } from '../socket';
 import Map from './Map';
 
+const initialState = {
+  isConnected: false,
+  location: null,
+  alertStatus: 'active',
+  error: '',
+};
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'CONNECTION_STATUS':
+      return { ...state, isConnected: action.payload };
+    case 'SET_INITIAL_state.location':
+      return { ...state, location: action.payload };
+    case 'UPDATE_state.location':
+      return { ...state, location: action.payload };
+    case 'SET_ERROR':
+      return { ...state, error: action.payload };
+    case 'ALERT_RESOLVED':
+      return { ...state, isConnected: false, alertStatus: 'resolved' };
+    default:
+      throw new Error();
+  }
+}
+
 const GuardianView = () => {
-  const [location, setLocation] = useState(null);
-  const [isConnected, setIsConnected] = useState(false);
-  const [error, setError] = useState('');
+  const [state, dispatch] = useReducer(reducer, initialState);
   const { alertId } = useParams();
 
   useEffect(() => {
     const fetchInitialAlert = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/alerts/${alertId}`);
+        const response = await axios.get(`http://localhost:3000/api/alerts/${alertId}`);
         const initialAlert = response.data.alert;
-        setLocation([initialAlert.latitude, initialAlert.longitude]);
-      } catch (err) {
-        setError("Could not find the requested alert.", err);
+        dispatch({ type: 'SET_INITIAL_state.location', payload: [initialAlert.latitude, initialAlert.longitude] });
+        if (initialAlert.status === 'resolved') {
+          dispatch({ type: 'ALERT_RESOLVED' });
+        }
+      } catch {
+        dispatch({ type: 'SET_ERROR', payload: 'Could not find the requested alert.' });
       }
     };
 
     fetchInitialAlert();
-    socket.connect();
 
     function onConnect() {
-      setIsConnected(true);
+      dispatch({ type: 'CONNECTION_STATUS', payload: true });
       socket.emit('join-alert-room', alertId);
     }
     function onDisconnect() {
-      setIsConnected(false);
+      dispatch({ type: 'CONNECTION_STATUS', payload: false });
     }
     function onNewLocation(data) {
-      setLocation([data.latitude, data.longitude]);
+      dispatch({ type: 'UPDATE_state.location', payload: [data.latitude, data.longitude] });
     }
     function onAlertResolved() {
-      setIsConnected(false);
+      dispatch({ type: 'ALERT_RESOLVED' });
       alert('The user has ended the SOS alert.');
       socket.disconnect();
     }
 
+    socket.connect();
     socket.on('connect', onConnect);
     socket.on('disconnect', onDisconnect);
     socket.on('new-location', onNewLocation);
@@ -54,11 +79,11 @@ const GuardianView = () => {
     };
   }, [alertId]);
 
-  const googleMapsUrl = location
-    ? `https://www.google.com/maps?q=${location[0]},${location[1]}`
+  const googleMapsUrl = state.location
+    ? `https://www.google.com/maps?q=${state.location[0]},${state.location[1]}`
     : '#';
 
-  if (error) {
+  if (state.error) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 flex items-center justify-center p-6">
         <div className="bg-white rounded-2xl shadow-xl border border-red-200 p-8 max-w-md w-full text-center">
@@ -68,7 +93,7 @@ const GuardianView = () => {
             </svg>
           </div>
           <h2 className="text-xl font-bold text-gray-900 mb-3">Alert Not Found</h2>
-          <p className="text-red-600 mb-6">{error}</p>
+          <p className="text-red-600 mb-6">{state.error}</p>
           <button 
             onClick={() => window.history.back()}
             className="inline-flex items-center gap-2 px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors duration-200"
@@ -106,11 +131,11 @@ const GuardianView = () => {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                  isConnected 
+                  state.isConnected 
                     ? 'bg-green-100 border-2 border-green-200' 
                     : 'bg-red-100 border-2 border-red-200'
                 }`}>
-                  {isConnected ? (
+                  {state.isConnected ? (
                     <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0" />
                     </svg>
@@ -122,20 +147,20 @@ const GuardianView = () => {
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900">Connection Status</h3>
-                  <p className={`text-sm ${isConnected ? 'text-green-600' : 'text-red-600'}`}>
-                    {isConnected ? 'Connected - Receiving live updates' : 'Disconnected - Attempting to reconnect'}
+                  <p className={`text-sm ${state.isConnected ? 'text-green-600' : 'text-red-600'}`}>
+                    {state.isConnected ? 'Connected - Receiving live updates' : 'Disconnected - Attempting to reconnect'}
                   </p>
                 </div>
               </div>
               
               <div className="flex items-center gap-2">
                 <div className={`w-3 h-3 rounded-full ${
-                  isConnected ? 'bg-green-500 animate-pulse' : 'bg-red-500'
+                  state.isConnected ? 'bg-green-500 animate-pulse' : 'bg-red-500'
                 }`}></div>
                 <span className={`text-sm font-medium ${
-                  isConnected ? 'text-green-700' : 'text-red-700'
+                  state.isConnected ? 'text-green-700' : 'text-red-700'
                 }`}>
-                  {isConnected ? 'Live' : 'Offline'}
+                  {state.isConnected ? 'Live' : 'Offline'}
                 </span>
               </div>
             </div>
@@ -143,7 +168,7 @@ const GuardianView = () => {
         </div>
 
         <div className="max-w-6xl mx-auto">
-          {location ? (
+          {state.location ? (
             <div className="grid lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2">
                 <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
@@ -161,7 +186,7 @@ const GuardianView = () => {
                   </div>
                   
                   <div className="aspect-video">
-                    <Map position={location} />
+                    <Map position={state.location} />
                   </div>
                 </div>
               </div>
@@ -195,15 +220,15 @@ const GuardianView = () => {
 
                     <button 
                       onClick={() => {
-                        if (navigator.share && location) {
+                        if (navigator.share && state.location) {
                           navigator.share({
-                            title: 'Emergency Location',
+                            title: 'Emergency location',
                             text: 'Someone needs help at this location:',
                             url: googleMapsUrl
                           });
-                        } else if (location) {
+                        } else if (state.location) {
                           navigator.clipboard.writeText(googleMapsUrl);
-                          alert('Location link copied to clipboard!');
+                          alert('location link copied to clipboard!');
                         }
                       }}
                       className="w-full flex items-center justify-center gap-3 bg-purple-600 text-white px-6 py-3 rounded-xl hover:bg-purple-700 transition-colors duration-200 font-medium"
@@ -261,7 +286,7 @@ const GuardianView = () => {
                 <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
                   <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
                 </div>
-                <h2 className="text-xl font-bold text-gray-900 mb-3">Loading Location Data</h2>
+                <h2 className="text-xl font-bold text-gray-900 mb-3">Loading location Data</h2>
                 <p className="text-gray-600">
                   Fetching the initial location for this emergency alert...
                 </p>
@@ -274,7 +299,7 @@ const GuardianView = () => {
           <div className="bg-white/50 backdrop-blur-sm border border-gray-200 rounded-2xl p-6">
             <div className="text-center">
               <p className="text-sm text-gray-600">
-                This is a secure emergency tracking session. Location data is encrypted and only visible to authorized guardians.
+                This is a secure emergency tracking session. location data is encrypted and only visible to authorized guardians.
               </p>
               <div className="flex items-center justify-center gap-4 mt-4 text-xs text-gray-500">
                 <div className="flex items-center gap-1">
