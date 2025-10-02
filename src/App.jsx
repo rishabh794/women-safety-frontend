@@ -11,7 +11,6 @@ import GuardianView from './components/GuardianView';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminRoute from './components/AdminRoute';
 import AppLayout from './components/AppLayout';
-import DebugInfo from './components/DebugInfo';
 
 function App() {
   return (
@@ -20,7 +19,6 @@ function App() {
       
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/debug" element={<DebugInfo />} />
      
       <Route path="/track/:alertId" element={<GuardianView />} />
 
