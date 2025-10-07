@@ -11,6 +11,7 @@ import GuardianView from './components/GuardianView';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminRoute from './components/AdminRoute';
 import AppLayout from './components/AppLayout';
+import 'leaflet/dist/leaflet.css';
 
 function App() {
   return (
